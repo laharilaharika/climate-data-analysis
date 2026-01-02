@@ -6,24 +6,26 @@ import UploadCSV from "./components/UploadCSV";
 import "./App.css";
 
 function App() {
-  const [page, setPage] = useState("login");
+  // 👇 START WITH REGISTER PAGE
+  const [page, setPage] = useState("register");
   const [loggedIn, setLoggedIn] = useState(false);
-  const [userRole, setUserRole] = useState("student"); // ALWAYS STRING
+  const [userRole, setUserRole] = useState("student");
 
+  // 🔹 NOT LOGGED IN
   if (!loggedIn) {
     if (page === "register") {
       return (
         <Register
           onRegister={(role) => {
-            // FORCE role to be string
             setUserRole(String(role));
-            setPage("login");
+            setPage("login"); // after signup → login
           }}
           goToLogin={() => setPage("login")}
         />
       );
     }
 
+    // 🔹 LOGIN PAGE
     return (
       <Login
         onLogin={() => setLoggedIn(true)}
@@ -32,13 +34,14 @@ function App() {
     );
   }
 
+  // 🔹 DASHBOARD
   return (
     <>
       <Navbar
         role={String(userRole)}
         onLogout={() => {
           setLoggedIn(false);
-          setPage("login");
+          setPage("register"); // logout → signup
         }}
       />
       <UploadCSV />
